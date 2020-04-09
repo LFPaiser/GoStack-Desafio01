@@ -92,12 +92,15 @@ app.patch("/repositories/:id/like", validadeId, (request, response) => {
   const { id } = request.params
 
   const repoIndex = repositories.findIndex(repo => repo.id === id)
-  const repo = repositories[repoIndex]
-  
-  repo.likes++
-  repositories[repoIndex] = repo
+  const likedRepo = repositories[repoIndex]
 
-  return response.json(repositories[repoIndex])
+  repositories.map(repo => {
+    if(repo.id === id){
+      repo.likes ++
+    }
+  })
+
+  return response.json({"Likes": likedRepo.likes})
 });
 
 module.exports = app;
